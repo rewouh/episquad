@@ -20,7 +20,7 @@ def get_users_with_groups(data, groups):
     ext = []
 
     for user in data['users']:
-        if all(g in user['groups'] for g in groups):
+        if any(g in user['groups'] for g in groups):
             ext.append(user)
 
     return ext
