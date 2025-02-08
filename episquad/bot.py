@@ -6,6 +6,7 @@ import discord
 
 from episquad.console import logf
 from episquad.data import Data
+from episquad.permissions import has_permissions
 
 from episquad.help_command import HelpCommand
 from episquad.ping_command import PingCommand
@@ -49,6 +50,15 @@ async def on_message(msg):
         await ctx.send('I do not take messages as DM as my functioning is server-based, sorry.')
         return
 
+    data = Data()
+    data.load(str(msg.guild.id))
+
+    user = data.get_user_from_disc_id(str(msg.author.id))
+
+    if not user:
+        await ctx.send('It seems you are not registered in this server\'s configuration, ask an admin to get added.')
+        return
+
     msg_s = [t[0] if t[0] else t[1] for t in re.findall(r'(?:"([^"]*)")|(\S+)', msg.content)]
     
     prefix = msg_s[0]
@@ -63,6 +73,10 @@ async def on_message(msg):
         return
 
     cmd = commands[name]
+
+    if not has_permissions(user, cmd.permissions):
+        await ctx.send('You do not have the required permissions to run this command.')
+        return
 
     p_args, o_args = [], []
 
@@ -88,9 +102,6 @@ async def on_message(msg):
     if len(p_args) != len(cmd.pos_args):
         await ctx.send(misuse_message('wrong number of positional arguments'))
         return      
-
-    data = Data()
-    data.load(str(msg.guild.id))
 
     await cmd.run(data, ctx, msg.author, msg, p_args, o_args)    
     

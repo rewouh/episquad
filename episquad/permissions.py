@@ -21,3 +21,6 @@ def exists_multiple(perms):
         if not exists(perm):
             return False
     return True 
+
+def has_permissions(user, perms):
+    return all(p in user['permissions'] for p in perms)

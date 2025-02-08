@@ -29,7 +29,7 @@ class DayCommand():
             _com = list(com)
             users = cu.get_users_with_groups(data, _com)
 
-            all_users += [u['name'] for u in users if u not in all_users]
+            all_users += [u['name'] for u in users if u['name'] not in all_users]
 
             if len(users) == 0:
                 continue
