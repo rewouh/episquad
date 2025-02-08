@@ -9,17 +9,17 @@ class FetchCommand():
         self.pos_args = ['token']
         self.opt_args = []
         self.permissions = []
-        self.url =  "https://zeus.ionis-it.com/api/reservation/filter/displayable?groups=5&startDate=previous_sunday&endDate=next_sunday"
+        self.url =  "https://zeus.ionis-it.com/api/reservation/filter/displayable?groups=5&startDate=first_day&endDate=last_day"
 
     async def run(self, c_data):
         data, p_args, ctx = c_data['data'], c_data['p_args'], c_data['channel']
         
         token, = p_args
         
-        p_sun, n_sun = du.get_current_week_first_and_last_day()
-        p_sun, n_sun = du.str(p_sun, micro=True), du.str(n_sun, micro=True)
+        f_day, l_day = du.get_current_month_first_and_last_day()
+        f_day, l_day = du.str(f_day, micro=True), du.str(l_day, micro=True)
 
-        url = self.url.replace('previous_sunday', p_sun).replace('next_sunday', n_sun)
+        url = self.url.replace('first_day', f_day).replace('last_day', l_day)
 
         resp = requests.get(url, headers={"Authorization": token })
 

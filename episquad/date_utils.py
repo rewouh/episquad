@@ -5,6 +5,9 @@ import calendar
 tz_utc0 = ZoneInfo('UTC')
 tz_france = ZoneInfo('Europe/Paris')
 
+def get_number_of_days_of_date_month(which_date):
+    return calendar.monthrange(which_date.year, which_date.month)[1]
+
 def parse_day(day):
     if day == 'today':
         return (True, now())
@@ -13,7 +16,7 @@ def parse_day(day):
     elif day.isdigit():
         day = int(day)
 
-        if day <= 0 or day > calendar.monthrange(now().year, now().month)[1]:
+        if day <= 0 or day > get_number_of_days_of_date_month(now()):
             return (False, None)
 
         return (True, now().replace(day=day))
@@ -54,8 +57,19 @@ def get_week_first_and_last_day(which_date):
 
     return last_sun, next_sun
 
+def get_month_first_and_last_day(which_date):
+    n_days = get_number_of_days_of_date_month(which_date)
+
+    first_day = datetime(which_date.year, which_date.month, 1).replace(hour=23, minute=0, second=0, microsecond=0)
+    last_day = datetime(which_date.year, which_date.month, n_days).replace(hour=22, minute=59, second=59, microsecond=999000)
+
+    return first_day, last_day
+
 def get_current_week_first_and_last_day():
     return get_week_first_and_last_day(now())
 
 def get_next_week_first_and_last_day():
     return get_week_first_and_last_day(now() + timedelta(days=7))
+
+def get_current_month_first_and_last_day():
+    return get_month_first_and_last_day(now())    
