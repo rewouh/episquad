@@ -8,7 +8,9 @@ class RemoveUserCommand():
         self.opt_args = []   
         self.permissions = [Permissions.REM_USER]
     
-    async def run(self, data, ctx, user, msg, p_args, o_args):
+    async def run(self, c_data):
+        data, p_args, ctx = c_data['data'], c_data['p_args'], c_data['channel']
+    
         es_id, = p_args
 
         if not data.user_exists(es_id):

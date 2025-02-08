@@ -9,7 +9,9 @@ class RemovePermissionsCommand():
         self.opt_args = []   
         self.permissions = [Permissions.REM_PERMS]
     
-    async def run(self, data, ctx, user, msg, p_args, o_args):
+    async def run(self, c_data):
+        data, p_args, ctx = c_data['data'], c_data['p_args'], c_data['channel']
+        
         es_id, perms, = p_args
 
         perms = perms.split(',')

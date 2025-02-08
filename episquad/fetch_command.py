@@ -11,7 +11,9 @@ class FetchCommand():
         self.permissions = []
         self.url =  "https://zeus.ionis-it.com/api/reservation/filter/displayable?groups=5&startDate=previous_sunday&endDate=next_sunday"
 
-    async def run(self, data, ctx, user, msg, p_args, o_args):
+    async def run(self, c_data):
+        data, p_args, ctx = c_data['data'], c_data['p_args'], c_data['channel']
+        
         token, = p_args
         
         p_sun, n_sun = du.get_current_week_first_and_last_day()

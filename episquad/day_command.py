@@ -10,8 +10,10 @@ class DayCommand():
         self.opt_args = []
         self.permissions = [Permissions.DAY]
 
-    async def run(self, data, ctx, user, msg, p_args, o_args):
-        day, = p_args
+    async def run(self, c_data):
+        data, ctx = c_data['data'], c_data['channel']
+        
+        day, = c_data['p_args']
         b, _day = du.parse_day(day)
 
         if not b:

@@ -1,7 +1,14 @@
 import episquad.date_utils as du
+from episquad.console import listit
 
 def remove_dup(l):
-    return list(dict.fromkeys(l))
+    without_dup = []
+
+    for e in l:
+        if e not in without_dup:
+            without_dup.append(e)
+
+    return without_dup    
 
 def get_classes_on_date(data, which_date):
     ext = []
@@ -32,7 +39,7 @@ def get_users_who_have_class(data, cla):
     ext = []
 
     for gn in get_class_groups_names(cla):
-        ext += get_users_with_groups([gn])
+        ext += get_users_with_groups(data, [gn])
 
     return remove_dup(ext)
 
@@ -49,3 +56,33 @@ def order_classes_by_common_groups(clas):
             ext[key] = [cla]        
     
     return ext
+
+def class_tostr(cla, data=None):
+    st, et = du.parse(cla['startDate']), du.parse(cla['endDate'])
+    
+    msg = f'**{cla['name']}** on the *{du.str_readable(st)}*, finishing at *{et.strftime("%Hh%M")}* '
+
+    if data:
+        msg += listit([u['name'] for u in get_users_who_have_class(data, cla)])
+
+
+    return msg
+
+group_emojis = {
+    'SCIA': ':brain:',
+    'GISTRE': ':red_car:',
+    'SANTE': ':heart:',
+    'SRS': ':spy:',
+    'GITM': ':teacher:',
+    'MTI': ':cloud:',
+    'SIGL': ':skull:',
+    'IMAGE': ':frame_photo:',
+}
+
+def get_group_emoji(group):
+    global group_emojis
+
+    if group in group_emojis.keys():
+        return group_emojis[group]
+    else:
+        return ':technologist:'

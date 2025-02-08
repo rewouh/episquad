@@ -16,11 +16,17 @@ class Data():
     def __init__(self):
         self.server_id = None
 
-    def server_data_base(self, server_id):
+    def server_data_base(self, server_id, create=True):
         servers_p = folder / 'servers'    
 
         if not servers_p.exists():
-            log('\'servers\' folder does not exist, creating it now.')
+            log('\'servers\' folder does not exist.')
+
+            if not create:
+                log('Not creating it, aborting.')
+                return (False, 'Server does not exist.')
+
+            log('Creating it now.')
             servers_p.mkdir()
 
         server_p = servers_p / server_id
@@ -31,10 +37,15 @@ class Data():
             with open(server_p, 'w') as f:
                 f.write(DEFAULT_SERVER_CONFIG)
 
-    def load(self, server_id):
+        return (True, 'Server available.')
+
+    def load(self, server_id, create=True):
         log(f'Loading data of server {server_id}.')
 
-        self.server_data_base(server_id)
+        b,m = self.server_data_base(server_id, create)
+
+        if not b:
+            return b,m
 
         with open(folder / 'servers' / server_id, 'r') as f:
             self.data = json.loads(f.read())
@@ -42,6 +53,8 @@ class Data():
         self.server_id = server_id
 
         log(f'Loaded data of server {server_id} correctly.')
+
+        return (True, 'Loaded data.')
 
     def persist(self):
         log(f'Persisting data of server {self.server_id}.')
@@ -157,7 +170,7 @@ class Data():
         return self.user_has_all_key_list('groups', es_id, groups)
 
     def user_tostr(self, user):
-        return f'{user['name']} ({user['es_id']} - {user['disc_id']}) has groups {listit(user['groups'])} and permissions {listit(user['permissions'])}'
+        return f'**{user['name']}** ({user['es_id']} - {user['disc_id']}) has groups {listit(user['groups'])} and permissions {listit(user['permissions'])}'
 
     def __getitem__(self, key):
         return self.data[key]

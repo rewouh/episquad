@@ -6,5 +6,5 @@ class PingCommand():
         self.opt_args = []
         self.permissions = []
 
-    async def run(self, data, ctx, user, msg, p_args, o_args):
-        await ctx.send('Pong!')
+    async def run(self, c_data):
+        await c_data['channel'].send('Pong :ping_pong: !')

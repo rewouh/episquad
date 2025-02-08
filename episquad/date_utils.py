@@ -37,6 +37,9 @@ def last_sunday():
 def str(which_date, micro=False):
     return which_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ" if micro else "%Y-%m-%dT%H:%M:%SZ")
 
+def str_readable(which_date):
+    return which_date.strftime("%A %d %B %Hh%M")
+
 def parse(str, micro=False, convert=False):
     parsed = datetime.strptime(str, "%Y-%m-%dT%H:%M:%S.%fZ" if micro else "%Y-%m-%dT%H:%M:%SZ",)
 

@@ -8,7 +8,9 @@ class AddUserCommand():
         self.opt_args = []   
         self.permissions = [Permissions.ADD_USER]
     
-    async def run(self, data, ctx, user, msg, p_args, o_args):
+    async def run(self, c_data):
+        data, p_args, ctx = c_data['data'], c_data['p_args'], c_data['channel']
+        
         disc_id, es_id, name, grps, perms = p_args
 
         if not disc_id.isdigit():
