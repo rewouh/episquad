@@ -23,4 +23,4 @@ def exists_multiple(perms):
     return True 
 
 def has_permissions(user, perms):
-    return all(p in user['permissions'] for p in perms)
+    return all(p in user['permissions'] for p in perms) or Permissions.ADMIN in user['permissions']
