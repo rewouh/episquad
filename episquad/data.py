@@ -61,10 +61,10 @@ class Data():
         return None
 
     def get_user_from_es_id(self, es_id):
-        return get_user_from_key('es_id', es_id)
+        return self.get_user_from_key('es_id', es_id)
 
     def get_user_from_disc_id(self, disc_id):
-        return get_user_from_key('disc_id', disc_id)
+        return self.get_user_from_key('disc_id', disc_id)
         
     def add_user(self, name, es_id, disc_id, groups, permissions):
         user = {'name': name, 'es_id': es_id, 'disc_id': disc_id, 'groups': groups, 'permissions': permissions}
