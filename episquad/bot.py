@@ -12,6 +12,7 @@ from episquad.command_utils import parse_users
 
 from episquad.help_command import HelpCommand
 from episquad.ping_command import PingCommand
+from episquad.lines_command import LinesCommand
 from episquad.fetch_command import FetchCommand
 from episquad.day_command import DayCommand
 from episquad.list_users_command import ListUsersCommand
@@ -165,6 +166,7 @@ async def on_message(msg):
 def register_commands():
     commands['help'] = HelpCommand(commands)
     commands['ping'] = PingCommand()
+    commands['lines'] = LinesCommand()
     commands['fetch'] = FetchCommand()
     commands['day'] = DayCommand()
     commands['list-users'] = ListUsersCommand()
