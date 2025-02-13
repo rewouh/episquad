@@ -1,4 +1,5 @@
 from episquad.permissions import Permissions
+from episquad.command_utils import sendf
 
 class RemoveUserCommand():
     def __init__(self):
@@ -19,4 +20,4 @@ class RemoveUserCommand():
 
         data.remove_user(es_id)
 
-        await ctx.send(f'Episquad user {es_id} was removed from the configuration.')
+        await sendf(ctx, f'Episquad user {es_id} was removed from the configuration.')

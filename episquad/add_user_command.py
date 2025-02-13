@@ -1,4 +1,5 @@
 from episquad.permissions import Permissions, exists
+from episquad.command_utils import sendf
 
 class AddUserCommand():
     def __init__(self):
@@ -34,4 +35,4 @@ class AddUserCommand():
 
         data.add_user(name, es_id, disc_id, grps.split(','), perms)
             
-        await ctx.send(f'User {name} was correctly added to the configuration.')
+        await sendf(ctx, f'User {name} was correctly added to the configuration.')

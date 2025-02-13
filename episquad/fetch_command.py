@@ -1,4 +1,6 @@
 import episquad.date_utils as du
+from episquad.command_utils import sendf
+
 import requests
 import json
 
@@ -37,4 +39,4 @@ class FetchCommand():
         data['classes'] = fetched
         data.persist()
 
-        await ctx.send('Fetched data.')
+        await sendf(ctx, 'Fetched data.')

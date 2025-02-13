@@ -1,6 +1,7 @@
 import re
 
 from episquad.classes_utils import class_tostr
+from episquad.command_utils import sendf
 
 class FindCommand():
     def __init__(self):
@@ -25,4 +26,4 @@ class FindCommand():
         else:
             msg = 'Could not find any class matching that regex :pensive:'
         
-        await ctx.send(msg)
+        await sendf(ctx, msg)

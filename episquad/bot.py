@@ -12,9 +12,11 @@ from episquad.command_utils import parse_users
 
 from episquad.help_command import HelpCommand
 from episquad.ping_command import PingCommand
+from episquad.repo_command import RepoCommand
 from episquad.lines_command import LinesCommand
 from episquad.fetch_command import FetchCommand
 from episquad.day_command import DayCommand
+from episquad.eat_command import EatCommand
 from episquad.list_users_command import ListUsersCommand
 from episquad.add_user_command import AddUserCommand
 from episquad.remove_user_command import RemoveUserCommand
@@ -23,6 +25,7 @@ from episquad.remove_perms_command import RemovePermissionsCommand
 from episquad.add_groups_command import AddGroupsCommand
 from episquad.remove_groups_command import RemoveGroupsCommand
 from episquad.find_command import FindCommand
+from episquad.suggest_command import SuggestCommand
 
 folder = pathlib.Path(__file__).parent
 
@@ -43,6 +46,9 @@ async def on_ready():
 def misuse_message(error):
     return f'It seems you mis-used the command (**{error}**), do `es help` to check the correct usage.'
 
+async def get_creator():
+    return await client.fetch_user(319724705131266048)
+
 @client.event
 async def on_message(msg):
     message = msg.content
@@ -54,6 +60,9 @@ async def on_message(msg):
     
     if not msg.guild:
         await ctx.send('I do not take messages as DM as my functioning is server-based, sorry.')
+        return
+
+    if not message.startswith('es'):
         return
 
     data = Data()
@@ -142,6 +151,7 @@ async def on_message(msg):
         await ctx.send(misuse_message('wrong number of positional arguments'))
         return
 
+
     command_data = {
         'data': data,
         'sender': None,
@@ -149,6 +159,7 @@ async def on_message(msg):
         'message': msg,
         'p_args': p_args,
         'o_args': o_args,
+        'creator': get_creator, 
     }
 
     for user in users:
@@ -166,9 +177,11 @@ async def on_message(msg):
 def register_commands():
     commands['help'] = HelpCommand(commands)
     commands['ping'] = PingCommand()
+    commands['repo'] = RepoCommand()
     commands['lines'] = LinesCommand()
     commands['fetch'] = FetchCommand()
     commands['day'] = DayCommand()
+    commands['eat'] = EatCommand()
     commands['list-users'] = ListUsersCommand()
     commands['add-user'] = AddUserCommand()
     commands['remove-user'] = RemoveUserCommand()
@@ -177,6 +190,7 @@ def register_commands():
     commands['add-groups'] = AddGroupsCommand()
     commands['rem-groups'] = RemoveGroupsCommand()
     commands['find'] = FindCommand()
+    commands['suggest'] = SuggestCommand()
 
 def load_token():
     global TOKEN

@@ -1,5 +1,6 @@
 from episquad.permissions import Permissions, exists_multiple
 from episquad.console import listit
+from episquad.command_utils import sendf
 
 class AddGroupsCommand():
     def __init__(self):
@@ -25,4 +26,4 @@ class AddGroupsCommand():
 
         data.add_groups_to_user(es_id, groups)
 
-        await ctx.send(f'Groups {listit(groups)} have been added to episquad user {es_id}.')
+        await sendf(ctx, f'Groups {listit(groups)} have been added to episquad user {es_id}.')

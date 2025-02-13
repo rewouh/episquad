@@ -1,4 +1,5 @@
 from episquad.classes_utils import get_group_emoji
+from episquad.command_utils import sendf
 
 class ListUsersCommand():
     def __init__(self):
@@ -16,5 +17,5 @@ class ListUsersCommand():
         for user in data['users']:
             msg += f'{get_group_emoji(user['groups'][0])} {data.user_tostr(user)}\n'
 
-        await ctx.send(msg)
+        await sendf(ctx, msg)
             

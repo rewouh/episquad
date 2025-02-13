@@ -1,6 +1,8 @@
 import os
 import pathlib
 
+from episquad.command_utils import sendf
+
 folder = pathlib.Path(__file__).parent
 
 class LinesCommand():
@@ -20,5 +22,5 @@ class LinesCommand():
 
             with open(folder / file, 'r') as f:
                 n += len(f.read().split('\n'))
-        
-        await c_data['channel'].send(f'I\'m currently made of **{n}** lines.')
+
+        await sendf(c_data['channel'], f'I\'m currently made of **{n}** lines.')

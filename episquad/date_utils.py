@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from dateutil import parser
 from zoneinfo import ZoneInfo
 import calendar
 
@@ -9,17 +10,15 @@ def get_number_of_days_of_date_month(which_date):
     return calendar.monthrange(which_date.year, which_date.month)[1]
 
 def parse_day(day):
+    try:
+        return (True, parser.parse(day, fuzzy=True))
+    except ValueError:
+        pass
+
     if day == 'today':
         return (True, now())
     elif day == 'tomorrow':
         return (True, now() + timedelta(days=1))
-    elif day.isdigit():
-        day = int(day)
-
-        if day <= 0 or day > get_number_of_days_of_date_month(now()):
-            return (False, None)
-
-        return (True, now().replace(day=day))
 
     return (False, None)
 

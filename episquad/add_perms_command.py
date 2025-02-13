@@ -1,5 +1,6 @@
 from episquad.permissions import Permissions, exists_multiple
 from episquad.console import listit
+from episquad.command_utils import sendf
 
 class AddPermissionsCommand():
     def __init__(self):
@@ -30,4 +31,4 @@ class AddPermissionsCommand():
 
         data.add_perms_to_user(es_id, perms)
 
-        await ctx.send(f'Permissions {listit(perms)} have been granted to episquad user {es_id}.')
+        await sendf(ctx, f'Permissions {listit(perms)} have been granted to episquad user {es_id}.')

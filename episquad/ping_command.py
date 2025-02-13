@@ -1,3 +1,5 @@
+from episquad.command_utils import sendf
+
 class PingCommand():
     def __init__(self):
         self.name = 'ping'
@@ -7,4 +9,4 @@ class PingCommand():
         self.permissions = []
 
     async def run(self, c_data):
-        await c_data['channel'].send('Pong :ping_pong: !')
+        await sendf(c_data['channel'], 'Pong :ping_pong: !')

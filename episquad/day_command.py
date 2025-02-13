@@ -1,6 +1,7 @@
 from episquad.permissions import Permissions
 import episquad.date_utils as du
 import episquad.classes_utils as cu
+from episquad.command_utils import sendf
 
 class DayCommand():
     def __init__(self):
@@ -47,4 +48,4 @@ class DayCommand():
 
         msg += f'Will be at school:\n{', '.join(all_users)}'
 
-        await ctx.send(msg)
+        await sendf(ctx, msg)

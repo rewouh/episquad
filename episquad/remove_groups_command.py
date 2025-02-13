@@ -1,5 +1,6 @@
 from episquad.permissions import Permissions, exists_multiple
 from episquad.console import listit
+from episquad.command_utils import sendf
 
 class RemoveGroupsCommand():
     def __init__(self):
@@ -20,10 +21,10 @@ class RemoveGroupsCommand():
             await ctx.send(f'Aborted: Episquad user {es_id} does not exist.')
             return
 
-        if  not data.user_has_all_groups(es_id, groups):
+        if not data.user_has_all_groups(es_id, groups):
             await ctx.send('Aborted: User is missing one or more of the given groups.')
             return
 
         data.remove_groups_from_user(es_id, groups)
 
-        await ctx.send(f'Groups {listit(groups)} have been removed from episquad user {es_id}.')
+        await sendf(ctx, f'Groups {listit(groups)} have been removed from episquad user {es_id}.')

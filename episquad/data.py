@@ -80,7 +80,7 @@ class Data():
         return self.get_user_from_key('disc_id', disc_id)
         
     def add_user(self, name, es_id, disc_id, groups, permissions):
-        user = {'name': name, 'es_id': es_id, 'disc_id': disc_id, 'groups': groups, 'permissions': permissions}
+        user = {'name': name, 'es_id': es_id, 'disc_id': disc_id, 'groups': groups, 'permissions': permissions, 'lock': None}
 
         self.data['users'].append(user) 
         self.persist()

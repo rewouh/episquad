@@ -41,7 +41,48 @@ def get_users_who_have_class(data, cla):
     for gn in get_class_groups_names(cla):
         ext += get_users_with_groups(data, [gn])
 
-    return remove_dup(ext)
+    return remove_dup(ext)    
+
+def parse_class_start_end(cla):
+    return du.parse(cla['startDate']), du.parse(cla['endDate'])
+
+def get_user_free_time_on_date(data, user, which_date):
+    day_start = which_date.replace(hour=6, minute=0, second=0)
+    day_end = which_date.replace(hour=23, minute=59, second=59)
+    
+    ext = {
+        'user': user,
+        'free_time': [(day_start, day_end)]
+    }
+
+    for cla in get_classes_on_date(data, which_date):
+        st, et = parse_class_start_end(cla)
+
+        if user not in get_users_who_have_class(data, cla):
+            continue
+
+        n_free_time = []
+
+        for (start, end) in ext['free_time']:
+            if et <= start or st >= end:
+                n_free_time.append((start, end))
+            else:
+                if st > start:
+                    n_free_time.append((start, st))
+                if et < end:
+                    n_free_time.append((et, end))
+
+        ext['free_time'] = n_free_time
+
+    return ext  
+
+def get_users_free_time_on_date(data, which_date):
+    ext = {}
+
+    for user in data['users']:
+        ext[user['es_id']] = get_user_free_time_on_date(data, user, which_date)
+
+    return ext  
 
 def order_classes_by_common_groups(clas):
     ext = {}
